@@ -1,0 +1,109 @@
+import { useMemo, useState } from 'react';
+import { getCallingCardOfDay, getArchiveCards } from '../data/callingCards';
+import { loadState, getWeekSummary } from '../utils/storage';
+import { STATS } from '../data/config';
+
+function statName(key) {
+  if (!key) return null;
+  return STATS.find((s) => s.key === key)?.name;
+}
+
+export default function Spark() {
+  const [state] = useState(() => loadState());
+  const featured = useMemo(() => getCallingCardOfDay(), []);
+  const archive = useMemo(() => getArchiveCards(new Date(), undefined, 6), []);
+  const week = useMemo(() => getWeekSummary(state), [state]);
+
+  return (
+    <div>
+      <h1
+        className="font-display uppercase tracking-tighter -skew-x-2 mb-2 glitch-text"
+        data-text="DECODE THE CHAOS"
+        style={{ fontSize: 'clamp(34px, 10vw, 46px)', lineHeight: 0.88 }}
+      >
+        <span className="block text-on-background">DECODE</span>
+        <span className="block text-primary-container">THE CHAOS</span>
+      </h1>
+      <p className="font-mono text-secondary normal-case mb-8" style={{ fontSize: 11 }}>
+        A new calling card arrives every day at noon. Read it. Move anyway.
+      </p>
+
+      {/* Featured Calling Card of the day */}
+      <div className="bg-surface-container border-2 border-primary p-6 mb-6 relative overflow-hidden hard-shadow">
+        <span className="font-mono bg-background text-primary px-2 py-1 inline-block uppercase mb-3" style={{ fontSize: 11 }}>
+          Calling Card · Today
+        </span>
+        <p className="font-display uppercase italic" style={{ fontSize: 26, lineHeight: 1.15 }}>
+          {featured.text}
+        </p>
+        {featured.tag && (
+          <p className="font-mono text-secondary normal-case mt-3" style={{ fontSize: 10 }}>
+            — tuned to {statName(featured.tag)}
+          </p>
+        )}
+        <div className="w-10 h-0.5 bg-primary-container mt-4" />
+      </div>
+
+      {/* This week's momentum, ties Spark back to real data */}
+      <div className="bg-surface-container border-2 border-on-background p-5 mb-8 hard-shadow">
+        <h3 className="font-display italic uppercase mb-3" style={{ fontSize: 20 }}>This Week, So Far</h3>
+        <p className="font-body text-secondary mb-1">
+          {week.totalActions} actions logged · {week.streak} day streak
+        </p>
+        <p className="font-body text-secondary">
+          Strongest stat: <span className="text-primary font-bold">{statName(week.strongest)}</span>
+          {' '}— weakest: <span className="text-primary font-bold">{statName(week.weakest)}</span>
+        </p>
+      </div>
+
+      {/* Directive */}
+      <div className="bg-primary-container border-2 border-background hard-shadow p-6 mb-8 text-on-primary-container">
+        <span className="font-mono bg-background text-primary px-2 py-1 inline-block uppercase mb-3" style={{ fontSize: 11 }}>
+          Directive
+        </span>
+        <h3 className="font-display italic uppercase mb-3" style={{ fontSize: 26 }}>Destroy The Grid</h3>
+        <p className="font-body mb-5">
+          Embrace the jagged edges. Smooth interfaces lie to you. The truth is found in the
+          friction. Stop waiting for the perfect slot — execute anyway.
+        </p>
+        <button className="w-full bg-background text-on-background font-display italic uppercase py-3 border-2 border-on-background flex items-center justify-between px-5" style={{ fontSize: 14 }}>
+          <span>Initiate Sequence</span><span>→</span>
+        </button>
+      </div>
+
+      {/* Archive rail of more calling cards */}
+      <h2 className="font-display italic uppercase mb-4" style={{ fontSize: 24 }}>Archive</h2>
+      <div className="flex flex-col gap-3 mb-8">
+        {archive.map((card, i) => (
+          <div
+            key={card.id}
+            className={`bg-surface-container-high border border-on-background p-4 ${i % 2 === 0 ? '-skew-x-1' : 'skew-x-1'}`}
+          >
+            {card.tag && (
+              <span className="font-mono text-secondary normal-case" style={{ fontSize: 9.5 }}>
+                {statName(card.tag).toUpperCase()}
+              </span>
+            )}
+            <p className="font-body text-lg mt-1">"{card.text}"</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Manifesto */}
+      <div className="border-t-2 border-on-background pt-6">
+        <p className="font-mono text-secondary normal-case" style={{ fontSize: 11.5, lineHeight: 1.7 }}>
+          <span className="font-display text-3xl text-primary float-left mr-2 leading-none">R</span>
+          eality is a consensus hallucination. We build rigid structures to contain the
+          overwhelming noise of existence, packaging it into neat, consumable rows and columns.
+          Phantom Vision exists to break that packaging — one logged action at a time.
+        </p>
+        <ul className="font-mono text-secondary normal-case mt-4" style={{ fontSize: 11.5, lineHeight: 1.9 }}>
+          <li><span className="text-primary font-bold">X</span> Reject Alignment</li>
+          <li><span className="text-primary font-bold">X</span> Embrace Asymmetry</li>
+          <li><span className="text-primary font-bold">X</span> Demand Friction</li>
+          <li><span className="text-primary font-bold">X</span> Take It Back</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
