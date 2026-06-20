@@ -111,10 +111,8 @@ export default function Spark() {
       <div className="border-t-2 border-on-background pt-6">
         <h3 className="font-display italic uppercase mb-4" style={{ fontSize: 20 }}>Why This Exists</h3>
         <p className="font-body text-secondary" style={{ fontSize: 14, lineHeight: 1.75 }}>
-          Most days don't feel like progress while you're in them. The gym session, the hour of
-          Odoo, the guitar practice you almost skipped — none of it feels big in the moment.
-          This page exists to remind you it adds up anyway, even on the days it doesn't feel
-          like it. Read a line, then go log something.
+          This isn't motivation. It's evidence. One day you'll need proof you were always capable of this.
+          You're not logging tasks. You're building a case against the version of you that almost quit.
         </p>
       </div>
 
