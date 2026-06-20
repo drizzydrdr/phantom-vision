@@ -1,7 +1,10 @@
 import { useMemo, useState } from 'react';
 import { getCallingCardOfDay, getArchiveCards } from '../data/callingCards';
+import { getMentorLineOfDay } from '../data/mentorLines';
 import { loadState, getWeekSummary } from '../utils/storage';
 import { STATS } from '../data/config';
+import { LaurelDivider, MeanderBorder } from '../components/GreekMotifs';
+import VisionCollage from '../components/VisionCollage';
 
 function statName(key) {
   if (!key) return null;
@@ -11,7 +14,8 @@ function statName(key) {
 export default function Spark() {
   const [state] = useState(() => loadState());
   const featured = useMemo(() => getCallingCardOfDay(), []);
-  const archive = useMemo(() => getArchiveCards(new Date(), undefined, 6), []);
+  const archive = useMemo(() => getArchiveCards(new Date(), undefined, 10), []);
+  const mentorLine = useMemo(() => getMentorLineOfDay(), []);
   const week = useMemo(() => getWeekSummary(state), [state]);
 
   return (
@@ -24,9 +28,12 @@ export default function Spark() {
         <span className="block text-on-background">DECODE</span>
         <span className="block text-primary-container">THE CHAOS</span>
       </h1>
-      <p className="font-mono text-secondary normal-case mb-8" style={{ fontSize: 11 }}>
-        A new calling card arrives every day at noon. Read it. Move anyway.
+      <p className="font-mono text-secondary normal-case mb-4" style={{ fontSize: 11 }}>
+        A new calling card — and a word from your corner — arrive every day at noon.
       </p>
+      <MeanderBorder className="mb-6" />
+
+      <VisionCollage />
 
       {/* Featured Calling Card of the day */}
       <div className="bg-surface-container border-2 border-primary p-6 mb-6 relative overflow-hidden hard-shadow">
@@ -36,12 +43,22 @@ export default function Spark() {
         <p className="font-display uppercase italic" style={{ fontSize: 26, lineHeight: 1.15 }}>
           {featured.text}
         </p>
-        {featured.tag && (
+        {(featured.source || featured.tag) && (
           <p className="font-mono text-secondary normal-case mt-3" style={{ fontSize: 10 }}>
-            — tuned to {statName(featured.tag)}
+            {featured.source ? `— ${featured.source}` : `— tuned to ${statName(featured.tag)}`}
           </p>
         )}
         <div className="w-10 h-0.5 bg-primary-container mt-4" />
+      </div>
+
+      {/* Mentor — separate voice, separate rotation, clearly labeled */}
+      <div className="bg-surface-container-high border-2 border-on-background p-5 mb-8 hard-shadow -skew-x-1">
+        <div className="skew-x-1">
+          <span className="font-mono bg-on-background text-background px-2 py-1 inline-block uppercase mb-3" style={{ fontSize: 10 }}>
+            From Your Corner
+          </span>
+          <p className="font-body text-lg italic">"{mentorLine.text}"</p>
+        </div>
       </div>
 
       {/* This week's momentum, ties Spark back to real data */}
@@ -72,16 +89,17 @@ export default function Spark() {
       </div>
 
       {/* Archive rail of more calling cards */}
-      <h2 className="font-display italic uppercase mb-4" style={{ fontSize: 24 }}>Archive</h2>
+      <LaurelDivider className="mb-2" />
+      <h2 className="font-display italic uppercase mb-4 text-center" style={{ fontSize: 24 }}>Archive</h2>
       <div className="flex flex-col gap-3 mb-8">
         {archive.map((card, i) => (
           <div
             key={card.id}
             className={`bg-surface-container-high border border-on-background p-4 ${i % 2 === 0 ? '-skew-x-1' : 'skew-x-1'}`}
           >
-            {card.tag && (
+            {(card.source || card.tag) && (
               <span className="font-mono text-secondary normal-case" style={{ fontSize: 9.5 }}>
-                {statName(card.tag).toUpperCase()}
+                {card.source ? card.source.toUpperCase() : statName(card.tag).toUpperCase()}
               </span>
             )}
             <p className="font-body text-lg mt-1">"{card.text}"</p>
@@ -89,20 +107,22 @@ export default function Spark() {
         ))}
       </div>
 
-      {/* Manifesto */}
+      {/* Why this exists — personal, not a manifesto-for-the-public */}
       <div className="border-t-2 border-on-background pt-6">
-        <p className="font-mono text-secondary normal-case" style={{ fontSize: 11.5, lineHeight: 1.7 }}>
-          <span className="font-display text-3xl text-primary float-left mr-2 leading-none">R</span>
-          eality is a consensus hallucination. We build rigid structures to contain the
-          overwhelming noise of existence, packaging it into neat, consumable rows and columns.
-          Phantom Vision exists to break that packaging — one logged action at a time.
+        <h3 className="font-display italic uppercase mb-4" style={{ fontSize: 20 }}>Why This Exists</h3>
+        <p className="font-body text-secondary" style={{ fontSize: 14, lineHeight: 1.75 }}>
+          Most days don't feel like progress while you're in them. The gym session, the hour of
+          Odoo, the guitar practice you almost skipped — none of it feels big in the moment.
+          This page exists to remind you it adds up anyway, even on the days it doesn't feel
+          like it. Read a line, then go log something.
         </p>
-        <ul className="font-mono text-secondary normal-case mt-4" style={{ fontSize: 11.5, lineHeight: 1.9 }}>
-          <li><span className="text-primary font-bold">X</span> Reject Alignment</li>
-          <li><span className="text-primary font-bold">X</span> Embrace Asymmetry</li>
-          <li><span className="text-primary font-bold">X</span> Demand Friction</li>
-          <li><span className="text-primary font-bold">X</span> Take It Back</li>
-        </ul>
+      </div>
+
+      {/* Fixed line — never changes, never rotates */}
+      <div className="mt-10 pt-6 border-t border-on-background/30 text-center">
+        <p className="font-mono text-on-surface-variant normal-case italic" style={{ fontSize: 11.5, letterSpacing: '0.02em' }}>
+          Live in the real life, remember what took her away.
+        </p>
       </div>
     </div>
   );

@@ -3,9 +3,15 @@
 // The quote/motivation pool shown on the Spark page.
 // One is "featured" per day, rotating automatically at 12:00 (noon) local time.
 //
-// To add your own cards: append to CALLING_CARDS below.
+// Mix: original lines + paraphrased Stoic philosophy on discipline and goal
+// pursuit (attributed via `source`). All shown with no visual distinction
+// between types — they should read as one unified voice.
+//
+// To add your own cards: append to CALLING_CARDS below. There's a marked
+// insertion point under the Stoic section for your own discipline quotes.
 // `tag` should be one of: 'knowledge' | 'guts' | 'proficiency' | 'charm' | null
 // (null = general / not tied to a specific stat)
+// `source` is optional — only set it when quoting a real person.
 // ============================================
 
 export const CALLING_CARDS = [
@@ -39,6 +45,35 @@ export const CALLING_CARDS = [
   { id: 'cc-028', text: "You are not behind. You are exactly on the timeline you're building.", tag: null },
   { id: 'cc-029', text: "Confidence is a record you build with yourself, not a feeling you wait for.", tag: 'charm' },
   { id: 'cc-030', text: "The version of you a year from now is being negotiated today.", tag: null },
+
+  // --- Stoic philosophy, paraphrased from the originals, always sourced ---
+  // Curated specifically around discipline, action, and goal-pursuit —
+  // not general Stoic philosophy (e.g. left out lines about wealth/death/etc
+  // that don't serve the "get up and do the work" purpose of this page).
+  { id: 'cc-031', text: "You have power over your mind, not outside events. Realize this, and you find strength.", tag: 'guts', source: 'Marcus Aurelius' },
+  { id: 'cc-032', text: "It's not what happens to you, but how you react to it that matters.", tag: null, source: 'Epictetus' },
+  { id: 'cc-033', text: "Waste no more time arguing what a good man should be. Be one.", tag: 'guts', source: 'Marcus Aurelius' },
+  { id: 'cc-035', text: "First say to yourself what you would be, then do what you have to do.", tag: 'knowledge', source: 'Epictetus' },
+  { id: 'cc-036', text: "Difficulties strengthen the mind, as labor does the body.", tag: 'guts', source: 'Seneca' },
+  { id: 'cc-038', text: "No man is free who is not master of himself.", tag: 'proficiency', source: 'Epictetus' },
+  { id: 'cc-040', text: "Luck is what happens when preparation meets opportunity.", tag: 'proficiency', source: 'Seneca' },
+  { id: 'cc-051', text: "The impediment to action advances action. What stands in the way becomes the way.", tag: 'guts', source: 'Marcus Aurelius' },
+  { id: 'cc-052', text: "Don't explain your philosophy. Embody it.", tag: 'proficiency', source: 'Epictetus' },
+  { id: 'cc-053', text: "Begin at once to live, and count each separate day as a separate life.", tag: null, source: 'Seneca' },
+  { id: 'cc-054', text: "If you want to improve, be content to be thought foolish and stupid.", tag: 'knowledge', source: 'Epictetus' },
+  { id: 'cc-056', text: "Confine yourself to the present.", tag: 'proficiency', source: 'Marcus Aurelius' },
+  { id: 'cc-059', text: "Such as are your habitual thoughts, such also will be the character of your mind.", tag: 'knowledge', source: 'Marcus Aurelius' },
+  { id: 'cc-061', text: "Most of what we say and do is not essential. Eliminate it, and you will have more time and tranquility.", tag: 'proficiency', source: 'Marcus Aurelius' },
+  { id: 'cc-062', text: "Circumstances don't make the man, they only reveal him to himself.", tag: 'guts', source: 'Epictetus' },
+
+  // --- ADD YOUR OWN STOIC / DISCIPLINE QUOTES HERE ---
+  // Use this exact shape. `source` is the person being quoted (always show it
+  // for real quotes). `tag` is optional — pick whichever stat fits best, or
+  // use null if it's general.
+  //
+  // { id: 'cc-100', text: "Your quote text here.", tag: 'guts', source: 'Person Name' },
+  // { id: 'cc-101', text: "Another quote here.", tag: null, source: 'Person Name' },
+
 ];
 
 // Returns the calling card for "today", changing automatically at 12:00 noon
